@@ -1,0 +1,379 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(15px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(15px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.97);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.03);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-4px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+@keyframes breathe {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 5px rgba(59, 130, 246, 0.1);
+  }
+}
+
+.auth-box {
+  animation: scaleIn 0.5s ease-out;
+}
+
+.auth-form {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.auth-form.active {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.btn {
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+}
+
+.note-card {
+  animation: scaleIn 0.4s ease-out;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.note-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+.modal {
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-content {
+  animation: scaleIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.loading-spinner {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.loading-spinner i {
+  animation: rotate 1s linear infinite;
+}
+
+.success-animation {
+  animation: pulse 0.5s ease-out;
+}
+
+.error-animation {
+  animation: shake 0.5s ease-out;
+}
+
+.sidebar-nav a {
+  transition: all 0.3s ease;
+}
+
+.sidebar-nav a:hover {
+  transform: translateX(3px);
+}
+
+.search-bar:focus-within {
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  transform: translateY(-1px);
+}
+
+.editor-toolbar .btn-icon:hover {
+  transform: scale(1.05);
+  background-color: rgba(59, 130, 246, 0.1);
+}
+
+.tag {
+  animation: slideInRight 0.3s ease-out;
+  transition: all 0.2s ease;
+}
+
+.tag:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.1);
+}
+
+.toast {
+  animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: var(--shadow-lg);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.5rem;
+}
+
+.page-transition {
+  animation: fadeIn 0.4s ease-out;
+}
+
+.ripple {
+  position: relative;
+  overflow: hidden;
+}
+
+.ripple::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.7) 10%, transparent 10.01%);
+  background-repeat: no-repeat;
+  background-position: 50%;
+  transform: scale(10, 10);
+  opacity: 0;
+  transition: transform 0.4s, opacity 0.8s;
+}
+
+.ripple:active::after {
+  transform: scale(0, 0);
+  opacity: 0.3;
+  transition: 0s;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.skeleton {
+  background: linear-gradient(to right, #f0f0f0 8%, #e0e0e0 18%, #f0f0f0 33%);
+  background-size: 2000px 100%;
+  animation: shimmer 2s infinite linear;
+}
+
+.toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+  padding: 1rem 1.5rem;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
+  max-width: 400px;
+}
+
+.toast::before {
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+}
+
+.toast-success {
+  border-left: 4px solid var(--success-color);
+}
+
+.toast-success::before {
+  content: "\f00c";
+  color: var(--success-color);
+}
+
+.toast-error {
+  border-left: 4px solid var(--error-color);
+}
+
+.toast-error::before {
+  content: "\f00d";
+  color: var(--error-color);
+}
+
+.toast-info {
+  border-left: 4px solid var(--primary-color);
+}
+
+.toast-info::before {
+  content: "\f129";
+  color: var(--primary-color);
+}
+
+.fade-out {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.loading-spinner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.loading-spinner i {
+  font-size: 2rem;
+  color: white;
+}
+
+.btn-icon:hover {
+  transform: scale(1.05);
+}
+
+.sidebar-nav li.active a {
+  background-color: var(--card-hover-bg);
+  color: var(--primary-color);
+}
+
+.sidebar-nav li.active a::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: var(--primary-color);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.empty-state {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.empty-state i {
+  animation: pulse 2s infinite ease-in-out;
+}
+
+.note-title:focus {
+  background-color: var(--card-hover-bg);
+}
+
+.notes-grid .note-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+
+.notes-grid .note-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.notes-grid .note-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+.notes-grid .note-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+
+.notes-grid .note-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
+
+.notes-grid .note-card:nth-child(6) {
+  animation-delay: 0.6s;
+}
+
+.notes-grid .note-card:nth-child(7) {
+  animation-delay: 0.7s;
+}
+
+.notes-grid .note-card:nth-child(8) {
+  animation-delay: 0.8s;
+}

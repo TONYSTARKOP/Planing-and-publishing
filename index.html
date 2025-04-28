@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NoteFlow - Modern Note Taking App</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233b82f6'%3E%3Cpath d='M19.045 7.401c.378-.378.586-.88.586-1.414s-.208-1.036-.586-1.414l-1.586-1.586c-.378-.378-.88-.586-1.414-.586s-1.036.208-1.413.585L4 13.585V18h4.413L19.045 7.401zm-3-3 1.587 1.585-1.59 1.584-1.586-1.585 1.589-1.584zM6 16v-1.585l7.04-7.018 1.586 1.586L7.587 16H6zm-2 4h16v2H4z'%3E%3C/path%3E%3C/svg%3E">
+    <meta name="theme-color" content="#3b82f6">
+</head>
+
+<body>
+    <div id="auth-container" class="container">
+        <div class="auth-box">
+            <div class="auth-header">
+                <h1>NoteFlow</h1>
+                <p>Organize your thoughts, visually.</p>
+            </div>
+            <div class="auth-tabs">
+                <button class="tab-btn active" data-tab="login">Login</button>
+                <button class="tab-btn" data-tab="signup">Sign Up</button>
+            </div>
+            <div class="auth-forms">
+                <form id="login-form" class="auth-form active">
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+                        <input type="email" id="login-email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="login-password">Password</label>
+                        <input type="password" id="login-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary ripple">Login</button>
+                    <div class="social-login">
+                        <button type="button" class="btn btn-google ripple">
+                            <i class="fab fa-google"></i> Continue with Google
+                        </button>
+                    </div>
+                </form>
+                <form id="signup-form" class="auth-form">
+                    <div class="form-group">
+                        <label for="signup-name">Full Name</label>
+                        <input type="text" id="signup-name" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-email">Email</label>
+                        <input type="email" id="signup-email" placeholder="your@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signup-password">Password</label>
+                        <input type="password" id="signup-password" placeholder="••••••••" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary ripple">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="app-container" class="container hidden">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2><i class="fas fa-sticky-note"></i> NoteFlow</h2>
+                <button id="new-note-btn" class="btn btn-primary ripple">
+                    <i class="fas fa-plus"></i> New Note
+                </button>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="active">
+                        <a href="#dashboard">
+                            <i class="fas fa-th-large"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#archived">
+                            <i class="fas fa-archive"></i>
+                            <span>Archived</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#tags">
+                            <i class="fas fa-tags"></i>
+                            <span>Tags</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings">
+                            <i class="fas fa-cog"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <img src="assets/default-avatar.png" alt="User Avatar" id="user-avatar">
+                    <div class="user-info">
+                        <span id="user-name">User Name</span>
+                        <button id="logout-btn" class="btn btn-text">Logout</button>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search notes...">
+                </div>
+                <div class="view-controls">
+                    <button class="btn btn-icon active" data-view="grid" title="Grid View">
+                        <i class="fas fa-th-large"></i>
+                    </button>
+                    <button class="btn btn-icon" data-view="list" title="List View">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div class="notes-grid">
+            </div>
+
+            <div id="note-editor" class="modal hidden">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <input type="text" id="note-title" class="note-title" placeholder="Note Title">
+                        <div class="modal-actions">
+                            <button class="btn btn-icon" title="More Options">
+                                <i class="fas fa-ellipsis-v"></i>
+                            </button>
+                            <button class="btn btn-icon close-modal" onclick="closeNoteEditor()">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="editor-toolbar">
+                            <button class="btn btn-icon" title="Bold">
+                                <i class="fas fa-bold"></i>
+                            </button>
+                            <button class="btn btn-icon" title="Italic">
+                                <i class="fas fa-italic"></i>
+                            </button>
+                            <button class="btn btn-icon" title="Underline">
+                                <i class="fas fa-underline"></i>
+                            </button>
+                            <button class="btn btn-icon" title="List">
+                                <i class="fas fa-list-ul"></i>
+                            </button>
+                            <button class="btn btn-icon" title="Link">
+                                <i class="fas fa-link"></i>
+                            </button>
+                            <button class="btn btn-icon" title="Image">
+                                <i class="fas fa-image"></i>
+                            </button>
+                            <button class="btn btn-icon" title="Code">
+                                <i class="fas fa-code"></i>
+                            </button>
+                        </div>
+                        <textarea id="note-content" class="editor-content" placeholder="Write your note..."></textarea>
+                        <input type="text" id="note-tags" placeholder="Tags (comma-separated)">
+                    </div>
+                    <div class="modal-footer">
+                        <button id="delete-note" class="btn btn-secondary" onclick="deleteNote()">
+                            <i class="fas fa-trash"></i> Delete
+                        </button>
+                        <button class="btn btn-secondary" onclick="closeNoteEditor()">Cancel</button>
+                        <button id="save-note" class="btn btn-primary ripple" onclick="saveNote()">
+                            <i class="fas fa-save"></i> Save Note
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/notes.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
